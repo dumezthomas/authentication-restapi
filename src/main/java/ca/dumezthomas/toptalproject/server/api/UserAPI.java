@@ -29,7 +29,7 @@ import ca.dumezthomas.toptalproject.server.data.UserIdentity;
 import ca.dumezthomas.toptalproject.server.entity.Role;
 import ca.dumezthomas.toptalproject.server.entity.User;
 
-@Secured(Role.USER)
+@Secured(Role.ADMIN)
 @Path("users")
 public class UserAPI
 {
@@ -40,6 +40,7 @@ public class UserAPI
 	SecurityContext securityContext;
 
 	@GET
+	@Secured(Role.ADMIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll()
 	{
@@ -59,6 +60,7 @@ public class UserAPI
 	}
 
 	@GET
+	@Secured({Role.USER, Role.ADMIN})
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") Long id)
@@ -78,6 +80,7 @@ public class UserAPI
 	}
 
 	@POST
+	@Secured({Role.USER, Role.ADMIN})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response add(User user)
@@ -102,6 +105,7 @@ public class UserAPI
 	}
 
 	@PATCH
+	@Secured({Role.USER, Role.ADMIN})
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -119,6 +123,7 @@ public class UserAPI
 	}
 	
 	@PATCH
+	@Secured({Role.USER, Role.ADMIN})
 	@Path("{id}/password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -146,6 +151,7 @@ public class UserAPI
 	}
 
 	@DELETE
+	@Secured(Role.ADMIN)
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response remove(@PathParam("id") Long id)

@@ -11,7 +11,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,6 +24,8 @@ import com.google.gson.Gson;
 import ca.dumezthomas.toptalproject.server.authentication.Authentication;
 import ca.dumezthomas.toptalproject.server.authentication.Secured;
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
+import ca.dumezthomas.toptalproject.server.data.Passwords;
+import ca.dumezthomas.toptalproject.server.data.UserIdentity;
 import ca.dumezthomas.toptalproject.server.entity.Role;
 import ca.dumezthomas.toptalproject.server.entity.User;
 
@@ -104,11 +105,11 @@ public class UserAPI
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") Long id, User user)
+	public Response update(@PathParam("id") Long id, UserIdentity userIdentity)
 	{
 		try
 		{
-			userDAO.update(id, user.getFirstName(), user.getLastName());
+			userDAO.updateStrings(id, userIdentity.getFirstName(), userIdentity.getLastName());
 			return Response.ok().entity("{}").build();
 		}
 		catch (Exception e)
@@ -117,20 +118,30 @@ public class UserAPI
 		}
 	}
 	
-	@PUT
+	@PATCH
 	@Path("{id}/password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updatePassword(@PathParam("id") Long id, User user)
+	public Response updatePassword(@PathParam("id") Long id, Passwords passwords)
 	{
 		try
 		{
-			//userDAO.update(id, user);
+			if(!passwords.getNewPassword1().equals(passwords.getNewPassword2()))
+				throw new Exception("Different passwords");
+			
+			User user = userDAO.read(id);
+			
+			if(!Authentication.isSamePassword(passwords.getOldPassword(), user.getPassword()))
+				throw new Exception("Invalid password");
+			
+			String hash = Authentication.hashPassword(passwords.getNewPassword1());
+			userDAO.updateString(id, hash);
+			
 			return Response.ok().entity("{}").build();
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Update user failed: " + e.getMessage()).build();
+			return Response.serverError().entity("Update password failed: " + e.getMessage()).build();
 		}
 	}
 

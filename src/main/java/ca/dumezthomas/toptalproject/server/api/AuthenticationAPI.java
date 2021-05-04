@@ -10,9 +10,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import ca.dumezthomas.toptalproject.server.authentication.Authentication;
-import ca.dumezthomas.toptalproject.server.authentication.Credentials;
 import ca.dumezthomas.toptalproject.server.authentication.Secured;
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
+import ca.dumezthomas.toptalproject.server.data.Credentials;
 import ca.dumezthomas.toptalproject.server.entity.Role;
 import ca.dumezthomas.toptalproject.server.entity.User;
 
@@ -47,7 +47,6 @@ public class AuthenticationAPI
 	}
 	
 	@POST
-	@Secured({Role.USER, Role.ADMIN})
 	@Path("extend")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

@@ -53,12 +53,22 @@ public class UserDAO implements DAOLocal<User>
 	}
 
 	@Override
-	public void update(Long id, String... args) throws Exception
+	public void updateStrings(Long id, String... args) throws Exception
 	{
 		User temp = read(id);
 
 		temp.setFirstName(args[0]);
 		temp.setLastName(args[1]);
+
+		em.merge(temp);
+	}
+	
+	@Override
+	public void updateString(Long id, String password) throws Exception
+	{
+		User temp = read(id);
+
+		temp.setPassword(password);
 
 		em.merge(temp);
 	}

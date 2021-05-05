@@ -34,7 +34,7 @@ public class AuthenticationAPI
 			if(!Authentication.isSamePassword(credentials.getPassword(), user.getPassword()))
 				throw new Exception("Invalid password");
 			
-			String token = Authentication.createToken(user.getUsername(), user.getRole());
+			String token = Authentication.createToken(user.getId(), user.getUsername(), user.getRole());
 
 			return Response.ok().entity(token).build();
 		}

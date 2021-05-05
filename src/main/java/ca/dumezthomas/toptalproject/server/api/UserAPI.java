@@ -1,5 +1,6 @@
 package ca.dumezthomas.toptalproject.server.api;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
@@ -67,6 +69,13 @@ public class UserAPI
 	{
 		try
 		{
+			if(securityContext.isUserInRole(Role.USER))
+			{
+				Principal principal = securityContext.getUserPrincipal();
+				if(Long.valueOf(principal.getName()) != id)
+					return Response.status(Status.FORBIDDEN).entity("Not authorized").build();
+			}
+			
 			User user = userDAO.read(id);
 			user.setPassword("******");
 			
@@ -96,7 +105,7 @@ public class UserAPI
 			
 			Long id = userDAO.create(user);
 			String jsonString = new Gson().toJson(id);
-			return Response.ok().entity(jsonString).build();
+			return Response.status(Status.CREATED).entity(jsonString).build();
 		}
 		catch (Exception e)
 		{
@@ -113,6 +122,13 @@ public class UserAPI
 	{
 		try
 		{
+			if(securityContext.isUserInRole(Role.USER))
+			{
+				Principal principal = securityContext.getUserPrincipal();
+				if(Long.valueOf(principal.getName()) != id)
+					return Response.status(Status.FORBIDDEN).entity("Not authorized").build();
+			}
+			
 			userDAO.updateStrings(id, userIdentity.getFirstName(), userIdentity.getLastName());
 			return Response.ok().entity("{}").build();
 		}
@@ -131,6 +147,13 @@ public class UserAPI
 	{
 		try
 		{
+			if(securityContext.isUserInRole(Role.USER))
+			{
+				Principal principal = securityContext.getUserPrincipal();
+				if(Long.valueOf(principal.getName()) != id)
+					return Response.status(Status.FORBIDDEN).entity("Not authorized").build();
+			}
+			
 			if(!passwords.getNewPassword1().equals(passwords.getNewPassword2()))
 				throw new Exception("Different passwords");
 			

@@ -73,7 +73,7 @@ public class Authentication implements ContainerRequestFilter
 				@Override
 				public Principal getUserPrincipal()
 				{
-					return () -> claim.getSubject();
+					return () -> (String) claim.get("userId");
 				}
 
 				@Override
@@ -146,7 +146,7 @@ public class Authentication implements ContainerRequestFilter
 		return new String(Base64.getEncoder().encodeToString(digest));
 	}
 
-	public static String createToken(String username, Set<Role> role) throws Exception
+	public static String createToken(Long userId, String username, Set<Role> role) throws Exception
 	{
 		Key key = new SecretKeySpec(getSecretKey().getEncoded(), SignatureAlgorithm.HS256.getJcaName());
 
@@ -157,7 +157,7 @@ public class Authentication implements ContainerRequestFilter
 			listRole.append(temp.getRole() + ":");
 
 		String token = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username)
-				.claim("role", listRole.toString()).setIssuedAt(Date.from(now))
+				.claim("userId", String.valueOf(userId)).claim("role", listRole.toString()).setIssuedAt(Date.from(now))
 				.setExpiration(Date.from(now.plus(5l, ChronoUnit.MINUTES))).signWith(SignatureAlgorithm.HS256, key)
 				.compact();
 
@@ -168,6 +168,7 @@ public class Authentication implements ContainerRequestFilter
 	{
 		Claims claim = parseToken(token);
 		String username = claim.getSubject();
+		String userId = (String) claim.get("userId");
 		String role = (String) claim.get("role");
 		Date issuedAt = claim.getIssuedAt();
 
@@ -175,9 +176,10 @@ public class Authentication implements ContainerRequestFilter
 
 		Instant now = Instant.now();
 
-		String newToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username).claim("role", role)
-				.setIssuedAt(issuedAt).setExpiration(Date.from(now.plus(5l, ChronoUnit.MINUTES)))
-				.signWith(SignatureAlgorithm.HS256, key).compact();
+		String newToken = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username)
+				.claim("userId", userId).claim("role", role).setIssuedAt(issuedAt)
+				.setExpiration(Date.from(now.plus(5l, ChronoUnit.MINUTES))).signWith(SignatureAlgorithm.HS256, key)
+				.compact();
 
 		return newToken;
 	}

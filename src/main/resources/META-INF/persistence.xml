@@ -4,7 +4,8 @@
 	version="2.2">
 	<persistence-unit name="EntitiesPU" transaction-type="JTA">
 		<jta-data-source>jdbc/toptalprojectDS</jta-data-source>
-		<class>ca.dumezthomas.toptalproject.server.entity.User</class>
+		<class>ca.dumezthomas.toptalproject.server.data.entity.User</class>
+		<class>ca.dumezthomas.toptalproject.server.data.entity.Role</class>
 		<properties />
 	</persistence-unit>
 </persistence>

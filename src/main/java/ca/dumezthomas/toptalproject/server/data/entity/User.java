@@ -1,4 +1,4 @@
-package ca.dumezthomas.toptalproject.server.entity;
+package ca.dumezthomas.toptalproject.server.data.entity;
 
 import java.io.Serializable;
 import java.util.Set;

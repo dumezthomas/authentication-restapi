@@ -28,8 +28,8 @@ import ca.dumezthomas.toptalproject.server.authentication.Secured;
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
 import ca.dumezthomas.toptalproject.server.data.Passwords;
 import ca.dumezthomas.toptalproject.server.data.UserIdentity;
-import ca.dumezthomas.toptalproject.server.entity.Role;
-import ca.dumezthomas.toptalproject.server.entity.User;
+import ca.dumezthomas.toptalproject.server.data.entity.Role;
+import ca.dumezthomas.toptalproject.server.data.entity.User;
 
 @Secured(Role.ADMIN)
 @Path("users")

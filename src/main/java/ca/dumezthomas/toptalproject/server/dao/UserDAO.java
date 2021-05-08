@@ -1,7 +1,7 @@
 package ca.dumezthomas.toptalproject.server.dao;
 
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
-import ca.dumezthomas.toptalproject.server.entity.User;
+import ca.dumezthomas.toptalproject.server.data.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

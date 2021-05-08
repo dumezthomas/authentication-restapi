@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import ca.dumezthomas.toptalproject.server.authentication.Authentication;
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
 import ca.dumezthomas.toptalproject.server.data.Credentials;
-import ca.dumezthomas.toptalproject.server.entity.User;
+import ca.dumezthomas.toptalproject.server.data.entity.User;
 
 @Path("authentication")
 public class AuthenticationAPI

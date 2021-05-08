@@ -26,7 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
-import ca.dumezthomas.toptalproject.server.entity.Role;
+import ca.dumezthomas.toptalproject.server.data.entity.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

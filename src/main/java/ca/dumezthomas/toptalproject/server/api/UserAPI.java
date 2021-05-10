@@ -32,7 +32,6 @@ import ca.dumezthomas.toptalproject.server.data.UserIdentity;
 import ca.dumezthomas.toptalproject.server.data.entity.Role;
 import ca.dumezthomas.toptalproject.server.data.entity.User;
 
-@Secured(Role.ADMIN)
 @Path("users")
 public class UserAPI
 {
@@ -81,7 +80,6 @@ public class UserAPI
 	}
 
 	@POST
-	@Secured({ Role.USER, Role.ADMIN })
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response add(User user)
@@ -146,15 +144,12 @@ public class UserAPI
 					return Response.status(Status.FORBIDDEN).entity("Not authorized").build();
 			}
 
-			if (!passwords.getNewPassword1().equals(passwords.getNewPassword2()))
-				throw new Exception("Different passwords");
-
 			User user = userDAO.read(id);
 
 			if (!Authentication.isSamePassword(passwords.getOldPassword(), user.getPassword()))
 				throw new Exception("Invalid password");
 
-			String hash = Authentication.hashPassword(passwords.getNewPassword1());
+			String hash = Authentication.hashPassword(passwords.getNewPassword());
 			userDAO.updateString(id, hash);
 
 			return Response.ok().entity("{}").build();
@@ -181,7 +176,7 @@ public class UserAPI
 			return Response.serverError().entity("Delete user failed: " + e.getMessage()).build();
 		}
 	}
-	
+
 	private Response getUsers()
 	{
 		try
@@ -224,5 +219,4 @@ public class UserAPI
 			return Response.serverError().entity("Read user failed: " + e.getMessage()).build();
 		}
 	}
-
 }

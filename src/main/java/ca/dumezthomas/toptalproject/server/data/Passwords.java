@@ -7,8 +7,7 @@ public class Passwords implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private String oldPassword;
-	private String newPassword1;
-	private String newPassword2;
+	private String newPassword;
 	
 	public String getOldPassword()
 	{
@@ -20,23 +19,13 @@ public class Passwords implements Serializable
 		this.oldPassword = oldPassword;
 	}
 	
-	public String getNewPassword1()
+	public String getNewPassword()
 	{
-		return newPassword1;
+		return newPassword;
 	}
 	
-	public void setNewPassword1(String newPassword1)
+	public void setNewPassword(String newPassword1)
 	{
-		this.newPassword1 = newPassword1;
-	}
-	
-	public String getNewPassword2()
-	{
-		return newPassword2;
-	}
-	
-	public void setNewPassword2(String newPassword2)
-	{
-		this.newPassword2 = newPassword2;
+		this.newPassword = newPassword1;
 	}
 }

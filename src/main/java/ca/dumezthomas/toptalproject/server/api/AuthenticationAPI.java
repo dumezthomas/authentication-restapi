@@ -1,5 +1,7 @@
 package ca.dumezthomas.toptalproject.server.api;
 
+import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,6 +19,8 @@ import ca.dumezthomas.toptalproject.server.data.entity.User;
 @Path("authentication")
 public class AuthenticationAPI
 {
+	private static final Logger LOGGER = Logger.getLogger(AuthenticationAPI.class.getName());
+	
 	@EJB(beanName = "UserEJB")
 	private DAOLocal<User> userDAO;
 
@@ -40,7 +44,10 @@ public class AuthenticationAPI
 		}
 		catch (Exception e)
 		{
-			return Response.status(Status.UNAUTHORIZED).entity("Authentication failed: " + e.getMessage()).build();
+			String errorMsg = "Authentication failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.status(Status.UNAUTHORIZED).entity(errorMsg).build();
 		}
 	}
 	
@@ -58,7 +65,10 @@ public class AuthenticationAPI
 		}
 		catch (Exception e)
 		{
-			return Response.status(Status.UNAUTHORIZED).entity("Refresh token failed: " + e.getMessage()).build();
+			String errorMsg = "Refresh token failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.status(Status.UNAUTHORIZED).entity(errorMsg).build();
 		}
 	}
 	

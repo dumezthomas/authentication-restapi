@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -35,6 +36,8 @@ import ca.dumezthomas.toptalproject.server.data.entity.User;
 @Path("users")
 public class UserAPI
 {
+	private static final Logger LOGGER = Logger.getLogger(UserAPI.class.getName());
+	
 	@EJB(beanName = "UserEJB")
 	private DAOLocal<User> userDAO;
 
@@ -75,7 +78,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Read user failed: " + e.getMessage()).build();
+			String errorMsg = "Read user failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -99,7 +105,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Create user failed: " + e.getMessage()).build();
+			String errorMsg = "Create user failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -124,7 +133,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Update user failed: " + e.getMessage()).build();
+			String errorMsg = "Update user failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -156,7 +168,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Update password failed: " + e.getMessage()).build();
+			String errorMsg = "Update password failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -173,7 +188,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Delete user failed: " + e.getMessage()).build();
+			String errorMsg = "Delete user failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -193,7 +211,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Read users failed: " + e.getMessage()).build();
+			String errorMsg = "Read users failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 
@@ -216,7 +237,10 @@ public class UserAPI
 		}
 		catch (Exception e)
 		{
-			return Response.serverError().entity("Read user failed: " + e.getMessage()).build();
+			String errorMsg = "Read user failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+			
+			return Response.serverError().entity(errorMsg).build();
 		}
 	}
 }

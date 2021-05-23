@@ -58,6 +58,14 @@ public class User implements Serializable, Comparable<User>
 		setLastName(lastName);
 	}
 
+	public boolean isAdmin()
+	{
+		if(role.stream().anyMatch(r -> r.getRole().equals(Role.ADMIN)))
+			return true;
+		else
+			return false;
+	}
+
 	@Override
 	public int compareTo(User user)
 	{
@@ -67,7 +75,7 @@ public class User implements Serializable, Comparable<User>
 	@Override
 	public String toString()
 	{
-		if(role.stream().anyMatch(r -> r.getRole().equals(Role.ADMIN)))
+		if(isAdmin())
 			return username + " (" + firstName + " " + lastName + ") -- ADMIN";
 		else
 			return username + " (" + firstName + " " + lastName + ")";

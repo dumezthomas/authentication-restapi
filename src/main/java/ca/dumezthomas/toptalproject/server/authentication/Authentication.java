@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -42,6 +43,8 @@ import javax.ws.rs.Priorities;
 @Priority(Priorities.AUTHENTICATION)
 public class Authentication implements ContainerRequestFilter
 {
+	private static final Logger LOGGER = Logger.getLogger(Authentication.class.getName());
+	
 	private static final String AUTHENTICATION_SCHEME = "Bearer";
 
 	private static final String KEYSTORE_PWD = "toptalproject";
@@ -107,8 +110,10 @@ public class Authentication implements ContainerRequestFilter
 		}
 		catch (Exception e)
 		{
-			requestContext.abortWith(
-					Response.status(Status.UNAUTHORIZED).entity("Authentication failed: " + e.getMessage()).build());
+			String errorMsg = "Authentication failed: " + e.getMessage();
+			LOGGER.warning(errorMsg);
+
+			requestContext.abortWith(Response.status(Status.UNAUTHORIZED).entity(errorMsg).build());
 		}
 	}
 

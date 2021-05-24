@@ -63,7 +63,7 @@ public class UserAPI
 	{
 		try
 		{
-			if (securityContext.isUserInRole(Role.USER))
+			if (!securityContext.isUserInRole(Role.ADMIN))
 			{
 				Principal principal = securityContext.getUserPrincipal();
 				if (Long.valueOf(principal.getName()) != id)
@@ -121,7 +121,7 @@ public class UserAPI
 	{
 		try
 		{
-			if (securityContext.isUserInRole(Role.USER))
+			if (!securityContext.isUserInRole(Role.ADMIN))
 			{
 				Principal principal = securityContext.getUserPrincipal();
 				if (Long.valueOf(principal.getName()) != id)
@@ -149,7 +149,7 @@ public class UserAPI
 	{
 		try
 		{
-			if (securityContext.isUserInRole(Role.USER))
+			if (!securityContext.isUserInRole(Role.ADMIN))
 			{
 				Principal principal = securityContext.getUserPrincipal();
 				if (Long.valueOf(principal.getName()) != id)
@@ -225,7 +225,7 @@ public class UserAPI
 			User user = userDAO.readByStringId(username);
 			user.setPassword("******");
 
-			if (securityContext.isUserInRole(Role.USER))
+			if (!securityContext.isUserInRole(Role.ADMIN))
 			{
 				Principal principal = securityContext.getUserPrincipal();
 				if (Long.valueOf(principal.getName()) != user.getId())

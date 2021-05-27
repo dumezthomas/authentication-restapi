@@ -29,7 +29,6 @@ import ca.dumezthomas.toptalproject.server.authentication.Authentication;
 import ca.dumezthomas.toptalproject.server.authentication.Secured;
 import ca.dumezthomas.toptalproject.server.dao.interfaces.DAOLocal;
 import ca.dumezthomas.toptalproject.server.data.Passwords;
-import ca.dumezthomas.toptalproject.server.data.UserIdentity;
 import ca.dumezthomas.toptalproject.server.data.entity.Role;
 import ca.dumezthomas.toptalproject.server.data.entity.User;
 
@@ -117,7 +116,7 @@ public class UserAPI
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") Long id, UserIdentity userIdentity)
+	public Response update(@PathParam("id") Long id, User user)
 	{
 		try
 		{
@@ -128,7 +127,9 @@ public class UserAPI
 					return Response.status(Status.FORBIDDEN).entity("Not authorized").build();
 			}
 
-			userDAO.updateStrings(id, userIdentity.getFirstName(), userIdentity.getLastName());
+			user.setPassword(null);
+			userDAO.update(id, user);
+			
 			return Response.ok().entity("{}").build();
 		}
 		catch (Exception e)
@@ -161,8 +162,8 @@ public class UserAPI
 			if (!Authentication.isSamePassword(passwords.getOldPassword(), user.getPassword()))
 				throw new Exception("Invalid password");
 
-			String hash = Authentication.hashPassword(passwords.getNewPassword());
-			userDAO.updateString(id, hash);
+			user.setPassword(Authentication.hashPassword(passwords.getNewPassword()));
+			userDAO.update(id, user);
 
 			return Response.ok().entity("{}").build();
 		}

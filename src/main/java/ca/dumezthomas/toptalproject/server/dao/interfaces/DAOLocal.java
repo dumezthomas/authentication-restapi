@@ -15,9 +15,7 @@ public interface DAOLocal<T>
 	
 	Long create(T t) throws Exception;
 
-	void updateStrings(Long id, String... args) throws Exception;
-	
-	void updateString(Long id, String arg) throws Exception;
+	void update(Long id, T t) throws Exception;
 	
 	void delete(Long id) throws Exception;
 }
